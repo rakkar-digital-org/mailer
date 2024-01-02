@@ -85,11 +85,11 @@ let MailerService = class MailerService {
         return transporterName;
     }
 };
-MailerService = tslib_1.__decorate([
+exports.MailerService = MailerService;
+exports.MailerService = MailerService = tslib_1.__decorate([
     (0, common_1.Injectable)(),
     tslib_1.__param(0, (0, common_1.Inject)(mailer_constant_1.MAILER_OPTIONS)),
     tslib_1.__param(1, (0, common_1.Optional)()),
     tslib_1.__param(1, (0, common_1.Inject)(mailer_constant_1.MAILER_TRANSPORT_FACTORY)),
     tslib_1.__metadata("design:paramtypes", [Object, Object])
 ], MailerService);
-exports.MailerService = MailerService;

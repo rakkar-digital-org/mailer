@@ -5,12 +5,12 @@ const ejs_1 = require("ejs");
 const lodash_1 = require("lodash");
 const fs = require("fs");
 const path = require("path");
-const inlineCss = require("inline-css");
+const css_inline_1 = require("css-inline");
 class EjsAdapter {
     constructor(config) {
         this.precompiledTemplates = {};
         this.config = {
-            inlineCssOptions: { url: ' ' },
+            inlineCssOptions: {},
             inlineCssEnabled: true,
         };
         Object.assign(this.config, config);
@@ -24,7 +24,9 @@ class EjsAdapter {
             ? path.dirname(template)
             : path.join(templateBaseDir, path.dirname(template));
         const templatePath = path.join(templateDir, templateName + templateExt);
-        templateName = path.relative(templateBaseDir, templatePath).replace(templateExt, '');
+        templateName = path
+            .relative(templateBaseDir, templatePath)
+            .replace(templateExt, '');
         if (!this.precompiledTemplates[templateName]) {
             try {
                 const template = fs.readFileSync(templatePath, 'utf-8');
@@ -37,17 +39,15 @@ class EjsAdapter {
         const rendered = this.precompiledTemplates[templateName](context);
         const render = (html) => {
             if (this.config.inlineCssEnabled) {
-                inlineCss(html, this.config.inlineCssOptions)
-                    .then((html) => {
-                    mail.data.html = html;
-                    return callback();
-                })
-                    .catch(callback);
+                try {
+                    mail.data.html = (0, css_inline_1.inline)(html, this.config.inlineCssOptions);
+                }
+                catch (e) { }
             }
             else {
                 mail.data.html = html;
-                return callback();
             }
+            return callback();
         };
         if (typeof rendered === 'string') {
             render(rendered);
