@@ -221,7 +221,7 @@ describe('MailerService', () => {
     );
   });
 
-  it('should compile template with the handlebars adapter with disabled inline-css', async () => {
+  it('should compile template with the handlebars adapter with disabled css-inline', async () => {
     let lastMail: MailMessage;
     const send = spyOnSmtpSend((mail: MailMessage) => {
       lastMail = mail;
@@ -254,7 +254,7 @@ describe('MailerService', () => {
     );
   });
 
-  it('should compile template with the handlebars adapter with enabled inline-css and media query', async () => {
+  it('should compile template with the handlebars adapter with enabled css-inline and media query', async () => {
     let lastMail: MailMessage;
     const send = spyOnSmtpSend((mail: MailMessage) => {
       lastMail = mail;
@@ -265,7 +265,7 @@ describe('MailerService', () => {
       template: {
         adapter: new HandlebarsAdapter(undefined, {
           inlineCssEnabled: true,
-          inlineCssOptions: { url: ' ', preserveMediaQueries: true },
+          inlineCssOptions: { },
         }),
       },
     });
@@ -286,7 +286,7 @@ describe('MailerService', () => {
       '@media only screen and (max-width:350px)',
     );
     expect(lastMail.data.html?.toString().replace(/\n/g, '')).toContain(
-      `<html><head><style type=\"text/css\">@media only screen and (max-width:350px) {  p {    font-size: 20px;  }}</style></head><body><p>Handlebars test template. by Nest-modules TM</p></body></html>`.replace(/\n/g, ''),
+      `<html><head><style data-css-inline=\"keep\" type=\"text/css\">  @media only screen and (max-width:350px) { p { font-size: 20px; } }</style></head><body><p>Handlebars test template. by Nest-modules TM</p></body></html>`
     );
   });
 

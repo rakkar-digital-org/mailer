@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.2](https://github.com/nest-modules/mailer/compare/v1.11.0...v1.11.2) (2024-02-27)
+
+### [1.11.1](https://github.com/nest-modules/mailer/compare/v1.11.0...v1.11.1) (2024-02-27)
+
+## [1.11.0](https://github.com/nest-modules/mailer/compare/v1.10.3...v1.11.0) (2024-02-24)
+
+### [1.10.3](https://github.com/nest-modules/mailer/compare/v1.10.2...v1.10.3) (2023-12-20)
+
+
+### Bug Fixes
+
+* add tslib ([36f3aca](https://github.com/nest-modules/mailer/commit/36f3aca0ffac5943fa1dcd927cce7200dbcdb8df))
+
+### [1.10.2](https://github.com/nest-modules/mailer/compare/v1.10.0...v1.10.2) (2023-12-20)
+
+
+### Bug Fixes
+
+* allows you to handle peer dependencies greater than or equal to ([9885780](https://github.com/nest-modules/mailer/commit/988578099fe9975ca96c3e245bfc1b709d9be28a))
+
+### [1.10.1](https://github.com/nest-modules/mailer/compare/v1.10.0...v1.10.1) (2023-12-20)
+
+
+### Bug Fixes
+
+* allows you to handle peer dependencies greater than or equal to ([9885780](https://github.com/nest-modules/mailer/commit/988578099fe9975ca96c3e245bfc1b709d9be28a))
+
+## [1.10.0](https://github.com/nest-modules/mailer/compare/v1.9.1...v1.10.0) (2023-12-20)
+
+### [1.9.1](https://github.com/nest-modules/mailer/compare/v1.9.0...v1.9.1) (2023-07-20)
+
+
+### Bug Fixes
+
+* patch vm2 Sandbox Escape vulnerability ([0f89a36](https://github.com/nest-modules/mailer/commit/0f89a36bd8c18cb349cb826ac840fdf3d6aad252))
+
+## [1.9.0](https://github.com/nest-modules/mailer/compare/v1.8.1...v1.9.0) (2023-07-20)
+
+
+### Bug Fixes
+
+* fix partial not found error on Windows ([fb1fcda](https://github.com/nest-modules/mailer/commit/fb1fcdaba04c4b4f6ccbf2492dc0f34565b198e1))
+* mjml import statement ([00abe2b](https://github.com/nest-modules/mailer/commit/00abe2b3215a41407fafbc134a56d97cb0b2ded8))
+* update dependencies by newer version ([f1d4fba](https://github.com/nest-modules/mailer/commit/f1d4fba6b9d8a0cc50ffe2ae1e3439552e327d0b))
+
 ### [1.8.2](https://github.com/nest-modules/mailer/compare/v1.8.1...v1.8.2) (2022-12-22)
 
 
