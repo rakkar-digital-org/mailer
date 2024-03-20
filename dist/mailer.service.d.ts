@@ -10,7 +10,10 @@ export declare class MailerService {
     private transporters;
     private templateAdapter;
     private initTemplateAdapter;
+    private readonly mailerLogger;
     constructor(mailerOptions: MailerOptions, transportFactory: IMailerTransportFactory);
+    private verifyTransporter;
+    verifyAllTransporters(): Promise<boolean>;
     sendMail(sendMailOptions: ISendMailOptions): Promise<SentMessageInfo>;
     addTransporter(transporterName: string, config: string | smtpTransport | smtpTransport.Options): string;
 }

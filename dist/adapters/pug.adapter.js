@@ -4,11 +4,11 @@ exports.PugAdapter = void 0;
 const path = require("path");
 const lodash_1 = require("lodash");
 const pug_1 = require("pug");
-const inlineCss = require("inline-css");
+const css_inline_1 = require("@css-inline/css-inline");
 class PugAdapter {
     constructor(config) {
         this.config = {
-            inlineCssOptions: { url: ' ' },
+            inlineCssOptions: {},
             inlineCssEnabled: true,
         };
         Object.assign(this.config, config);
@@ -27,17 +27,17 @@ class PugAdapter {
                 return callback(err);
             }
             if (this.config.inlineCssEnabled) {
-                inlineCss(body, this.config.inlineCssOptions)
-                    .then((html) => {
-                    mail.data.html = html;
-                    return callback();
-                })
-                    .catch(callback);
+                try {
+                    mail.data.html = (0, css_inline_1.inline)(body, this.config.inlineCssOptions);
+                }
+                catch (e) {
+                    callback(e);
+                }
             }
             else {
                 mail.data.html = body;
-                return callback();
             }
+            return callback();
         });
     }
 }

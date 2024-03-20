@@ -1,5 +1,5 @@
-import InlineCss = require('inline-css');
+import { Options } from '@css-inline/css-inline';
 export interface TemplateAdapterConfig {
-    inlineCssOptions?: InlineCss.Options;
+    inlineCssOptions?: Options;
     inlineCssEnabled?: boolean;
 }

@@ -4,14 +4,14 @@ exports.HandlebarsAdapter = void 0;
 const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
-const inlineCss = require("inline-css");
+const css_inline_1 = require("@css-inline/css-inline");
 const glob = require("glob");
 const lodash_1 = require("lodash");
 class HandlebarsAdapter {
     constructor(helpers, config) {
         this.precompiledTemplates = {};
         this.config = {
-            inlineCssOptions: { url: ' ' },
+            inlineCssOptions: {},
             inlineCssEnabled: true,
         };
         handlebars.registerHelper('concat', (...args) => {
@@ -30,7 +30,9 @@ class HandlebarsAdapter {
                 ? path.dirname(template)
                 : path.join(templateBaseDir, path.dirname(template));
             const templatePath = path.join(templateDir, templateName + templateExt);
-            templateName = path.relative(templateBaseDir, templatePath).replace(templateExt, '');
+            templateName = path
+                .relative(templateBaseDir, templatePath)
+                .replace(templateExt, '');
             if (!this.precompiledTemplates[templateName]) {
                 try {
                     const template = fs.readFileSync(templatePath, 'utf-8');
@@ -53,7 +55,9 @@ class HandlebarsAdapter {
             data: {},
         });
         if (runtimeOptions.partials) {
-            const partialPath = path.join(runtimeOptions.partials.dir, '**', '*.hbs').replace(/\\/g, '/');
+            const partialPath = path
+                .join(runtimeOptions.partials.dir, '**', '*.hbs')
+                .replace(/\\/g, '/');
             const files = glob.sync(partialPath);
             files.forEach((file) => {
                 const { templateName, templatePath } = precompile(file, () => { }, runtimeOptions.partials);
@@ -63,17 +67,17 @@ class HandlebarsAdapter {
         }
         const rendered = this.precompiledTemplates[templateName](mail.data.context, Object.assign(Object.assign({}, runtimeOptions), { partials: this.precompiledTemplates }));
         if (this.config.inlineCssEnabled) {
-            inlineCss(rendered, this.config.inlineCssOptions)
-                .then((html) => {
-                mail.data.html = html;
-                return callback();
-            })
-                .catch(callback);
+            try {
+                mail.data.html = (0, css_inline_1.inline)(rendered, this.config.inlineCssOptions);
+            }
+            catch (e) {
+                callback(e);
+            }
         }
         else {
             mail.data.html = rendered;
-            return callback();
         }
+        return callback();
     }
 }
 exports.HandlebarsAdapter = HandlebarsAdapter;
