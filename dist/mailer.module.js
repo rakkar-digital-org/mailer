@@ -23,7 +23,7 @@ let MailerModule = MailerModule_1 = class MailerModule {
         };
     }
 };
-MailerModule = MailerModule_1 = tslib_1.__decorate([
+exports.MailerModule = MailerModule;
+exports.MailerModule = MailerModule = MailerModule_1 = tslib_1.__decorate([
     (0, common_1.Module)({})
 ], MailerModule);
-exports.MailerModule = MailerModule;

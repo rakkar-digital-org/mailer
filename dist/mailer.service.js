@@ -1,4 +1,5 @@
 "use strict";
+var MailerService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailerService = void 0;
 const tslib_1 = require("tslib");
@@ -7,7 +8,7 @@ const common_1 = require("@nestjs/common");
 const previewEmail = require("preview-email");
 const mailer_constant_1 = require("./constants/mailer.constant");
 const mailer_transport_factory_1 = require("./mailer-transport.factory");
-let MailerService = class MailerService {
+let MailerService = MailerService_1 = class MailerService {
     initTemplateAdapter(templateAdapter, transporter) {
         if (templateAdapter) {
             transporter.use('compile', (mail, callback) => {
@@ -29,6 +30,7 @@ let MailerService = class MailerService {
         this.mailerOptions = mailerOptions;
         this.transportFactory = transportFactory;
         this.transporters = new Map();
+        this.mailerLogger = new common_1.Logger(MailerService_1.name);
         if (!transportFactory) {
             this.transportFactory = new mailer_transport_factory_1.MailerTransportFactory(mailerOptions);
         }
@@ -47,14 +49,30 @@ let MailerService = class MailerService {
         }
         if (mailerOptions.transports) {
             Object.keys(mailerOptions.transports).forEach((name) => {
-                this.transporters.set(name, this.transportFactory.createTransport(this.mailerOptions.transports[name]));
-                this.initTemplateAdapter(this.templateAdapter, this.transporters.get(name));
+                const transporter = this.transportFactory.createTransport(this.mailerOptions.transports[name]);
+                this.transporters.set(name, transporter);
+                this.verifyTransporter(transporter, name);
+                this.initTemplateAdapter(this.templateAdapter, transporter);
             });
         }
         if (mailerOptions.transport) {
             this.transporter = this.transportFactory.createTransport();
+            this.verifyTransporter(this.transporter);
             this.initTemplateAdapter(this.templateAdapter, this.transporter);
         }
+    }
+    verifyTransporter(transporter, name) {
+        const transporterName = name ? ` '${name}'` : '';
+        transporter.verify()
+            .then(() => this.mailerLogger.debug(`Transporter${transporterName} is ready`))
+            .catch((error) => this.mailerLogger.error(`Error occurred while verifying the transporter${transporterName}: ${error.message}`));
+    }
+    verifyAllTransporters() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const transporters = [...this.transporters.values(), this.transporter];
+            const transportersVerified = yield Promise.all(transporters.map(transporter => transporter.verify().catch(() => false)));
+            return transportersVerified.every(verified => verified);
+        });
     }
     sendMail(sendMailOptions) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -85,11 +103,11 @@ let MailerService = class MailerService {
         return transporterName;
     }
 };
-MailerService = tslib_1.__decorate([
+exports.MailerService = MailerService;
+exports.MailerService = MailerService = MailerService_1 = tslib_1.__decorate([
     (0, common_1.Injectable)(),
     tslib_1.__param(0, (0, common_1.Inject)(mailer_constant_1.MAILER_OPTIONS)),
     tslib_1.__param(1, (0, common_1.Optional)()),
     tslib_1.__param(1, (0, common_1.Inject)(mailer_constant_1.MAILER_TRANSPORT_FACTORY)),
     tslib_1.__metadata("design:paramtypes", [Object, Object])
 ], MailerService);
-exports.MailerService = MailerService;
