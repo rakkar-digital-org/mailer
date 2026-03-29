@@ -22,10 +22,10 @@
   },
   "dependencies": {
     "@nestjs-modules/mailer": "../../dist",
-    "@nestjs/common": "8.2.4",
+    "@nestjs/common": "10.4.16",
     "@nestjs/core": "9.0.5",
     "@nestjs/platform-express": "8.2.4",
-    "nodemailer": "6.9.9",
+    "nodemailer": "7.0.3",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "7.4.0",
